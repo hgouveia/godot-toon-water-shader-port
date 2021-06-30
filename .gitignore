@@ -1,0 +1,8 @@
+.DS_Store
+.import/
+.vscode/
+.mono/
+bin/
+logs/
+*.log*
+*.import
