@@ -8,13 +8,17 @@ code = "/**
 * Ported from the original unity shader by Erik Roystan Ross
 * https://roystan.net/articles/toon-water.html
 * https://github.com/IronWarrior/ToonWaterShader
-* Camera Depth taken from Miziziziz's video on: https://youtu.be/PLCGL3RW548?t=1164
+* Camera Depth taken from Bastiaan Olij's video on: https://www.youtube.com/watch?v=Jq3he9Lbj7M
 */
 
 shader_type spatial;
 
+const float SMOOTHSTEP_AA = 0.01;
+
 uniform sampler2D surfaceNoise;
 uniform sampler2D distortNoise;
+
+uniform float beer_factor = 0.8;
 
 uniform float foam_distance = 0.01;
 uniform float foam_max_distance = 0.4;
@@ -31,10 +35,6 @@ uniform vec4 _DepthGradientDeep: hint_color = vec4(0.086, 0.407, 1, 0.749);
 uniform float _DepthMaxDistance: hint_range(0, 1) = 1.0;
 uniform float _DepthFactor = 1.0;
 
-uniform float near = 0.01; // 0.15
-uniform float far = 300.0; // 300.0
-
-varying vec4 screenPos;
 varying vec2 noiseUV;
 varying vec2 distortUV;
 varying vec3 viewNormal;
@@ -47,11 +47,6 @@ vec4 alphaBlend(vec4 top, vec4 bottom)
 	return vec4(color, alpha);
 }
 
-float linearize(float c_depth){
-	c_depth = 2.0 * c_depth - 1.0; // -1, 1 range
-	return near * far / (far + c_depth * (near - far));
-}
-
 void vertex() {
 	viewNormal = (MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
 	noiseUV = UV * surface_noise_tiling;
@@ -59,11 +54,13 @@ void vertex() {
 }
 
 void fragment(){
-	// https://youtu.be/PLCGL3RW548?t=1164
-	vec4 depthTexture = texture(DEPTH_TEXTURE, SCREEN_UV);
-	float zdepth = linearize(depthTexture.r);
-	float zpos = linearize(FRAGCOORD.z);
-	float depth = zdepth - zpos;
+	// https://www.youtube.com/watch?v=Jq3he9Lbj7M
+	float depth = texture(DEPTH_TEXTURE, SCREEN_UV).r;
+	depth = depth * 2.0 - 1.0;
+	depth = PROJECTION_MATRIX[3][2] / (depth + PROJECTION_MATRIX[2][2]);
+	depth = depth + VERTEX.z;
+	depth = exp(-depth * beer_factor);
+	depth = 1.0 - depth;
 	
 	// Still unsure how to get properly the NORMAL from the camera
 	// this was my best attempt
@@ -83,7 +80,7 @@ void fragment(){
 		(noiseUV.y + TIME * surface_noise_scroll.y + distortAmount.y)
 	);
 	float surfaceNoiseSample = texture(surfaceNoise, noise_uv).r;
-	float surfaceNoiseAmount = surfaceNoiseSample > surfaceNoiseCutoff ? 1.0 : 0.0;
+	float surfaceNoiseAmount = smoothstep(surfaceNoiseCutoff - SMOOTHSTEP_AA, surfaceNoiseCutoff + SMOOTHSTEP_AA, surfaceNoiseSample);
 	
 	float waterDepth = clamp(depth / _DepthMaxDistance, 0.0, 1.0) * _DepthFactor;
 	vec4 waterColor = mix(_DepthGradientShallow, _DepthGradientDeep, waterDepth);
@@ -98,6 +95,7 @@ void fragment(){
 
 [resource]
 shader = SubResource( 1 )
+shader_param/beer_factor = 0.8
 shader_param/foam_distance = 0.1
 shader_param/foam_max_distance = 0.1
 shader_param/foam_min_distance = 0.04
@@ -109,8 +107,6 @@ shader_param/surface_distortion_amount = 0.27
 shader_param/_DepthGradientShallow = Color( 0, 0.545098, 0.729412, 0.72549 )
 shader_param/_DepthGradientDeep = Color( 0, 0, 1, 0.760784 )
 shader_param/_DepthMaxDistance = 1.0
-shader_param/_DepthFactor = 1.15
-shader_param/near = 0.15
-shader_param/far = 30.0
+shader_param/_DepthFactor = 1.0
 shader_param/surfaceNoise = ExtResource( 1 )
 shader_param/distortNoise = ExtResource( 2 )

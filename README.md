@@ -6,4 +6,4 @@ Ported from original Unity [Roystan's Toon Water Shader](https://roystan.net/art
 
 ## Resources:
 - Roystan's Article: https://roystan.net/articles/toon-water.html
-- Miziziziz Depth Buffer: https://youtu.be/PLCGL3RW548?t=1164
+- Bastiaan Olij Depth Buffer: https://www.youtube.com/watch?v=Jq3he9Lbj7M
