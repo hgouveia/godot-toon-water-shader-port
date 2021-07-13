@@ -7,5 +7,5 @@ albedo_color = Color( 0.454902, 0.454902, 0.454902, 1 )
 
 [node name="Rock" instance=ExtResource( 1 )]
 
-[node name="Rock2" parent="." index="0"]
+[node name="Rock" parent="RootNode" index="0"]
 material/0 = SubResource( 1 )

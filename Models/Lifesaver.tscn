@@ -8,5 +8,5 @@ albedo_texture = ExtResource( 1 )
 
 [node name="Lifesaver" instance=ExtResource( 2 )]
 
-[node name="Lifesaver2" parent="." index="0"]
+[node name="Lifesaver" parent="RootNode" index="0"]
 material/0 = SubResource( 1 )

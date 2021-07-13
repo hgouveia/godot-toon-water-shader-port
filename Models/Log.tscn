@@ -8,5 +8,5 @@ albedo_texture = ExtResource( 1 )
 
 [node name="Log" instance=ExtResource( 2 )]
 
-[node name="Log2" parent="." index="0"]
+[node name="Log" parent="RootNode" index="0"]
 material/0 = SubResource( 1 )
