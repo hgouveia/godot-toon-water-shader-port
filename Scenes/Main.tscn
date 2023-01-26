@@ -1,41 +1,41 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://cwng4wu3xklqt"]
 
-[ext_resource path="res://Models/Pond.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Models/Log.tscn" type="PackedScene" id=2]
-[ext_resource path="res://default_env.tres" type="Environment" id=3]
-[ext_resource path="res://Scripts/ObjectFloating.gd" type="Script" id=5]
-[ext_resource path="res://Models/Rock.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Models/Lifesaver.tscn" type="PackedScene" id=7]
+[ext_resource type="PackedScene" uid="uid://b6xs0etf82eao" path="res://Models/Pond.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://bm6rcpi3dc7kw" path="res://Models/Log.tscn" id="2"]
+[ext_resource type="Environment" uid="uid://bfi6kvodil2f0" path="res://default_env.tres" id="3"]
+[ext_resource type="Script" path="res://Scripts/ObjectFloating.gd" id="5"]
+[ext_resource type="PackedScene" path="res://Models/Rock.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b2gbq4sba8yqb" path="res://Models/Lifesaver.tscn" id="7"]
 
-[node name="Main" type="Spatial"]
+[node name="Main" type="Node3D"]
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.999998, -0.000863956, 0.001836, -0.000573449, 0.747613, 0.664135, -0.0019464, -0.664135, 0.747611, 0.0352236, 8.36778, 13.5674 )
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999998, -0.000863956, 0.001836, -0.000573449, 0.747613, 0.664135, -0.0019464, -0.664135, 0.747611, 0.0352236, 8.36778, 13.5674)
 current = true
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 60, 0 )
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 60, 0)
 light_energy = 0.8
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 3 )
+environment = ExtResource("3")
 
-[node name="PondScene" type="Spatial" parent="."]
+[node name="PondScene" type="Node3D" parent="."]
 
-[node name="Lifesaver" parent="PondScene" instance=ExtResource( 7 )]
-transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -3.10573, -0.121009, -0.312711 )
-script = ExtResource( 5 )
+[node name="Lifesaver" parent="PondScene" instance=ExtResource("7")]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -3.10573, -0.121009, -0.312711)
+script = ExtResource("5")
 
-[node name="Rock" parent="PondScene" instance=ExtResource( 6 )]
-transform = Transform( 0.017613, 0, 0.00947531, 0, 0.02, 0, -0.00947531, 0, 0.017613, 4.31493, 0.494098, -2.94721 )
+[node name="Rock" parent="PondScene" instance=ExtResource("6")]
+transform = Transform3D(0.017613, 0, 0.00947531, 0, 0.02, 0, -0.00947531, 0, 0.017613, 4.31493, 0.494098, -2.94721)
 
-[node name="Log" parent="PondScene" instance=ExtResource( 2 )]
-transform = Transform( 0.0121702, 0, -0.0158709, 0, 0.02, 0, 0.0158709, 0, 0.0121702, 3.27006, -0.338242, 4.05312e-06 )
-script = ExtResource( 5 )
+[node name="Log" parent="PondScene" instance=ExtResource("2")]
+transform = Transform3D(0.0121702, 0, -0.0158709, 0, 0.02, 0, 0.0158709, 0, 0.0121702, 3.27006, -0.338242, 4.05312e-06)
+script = ExtResource("5")
 
-[node name="Log2" parent="PondScene" instance=ExtResource( 2 )]
-transform = Transform( 0.00819719, 0, -0.018243, 0, 0.02, 0, 0.018243, 0, 0.00819719, 0, -1.08937, 3.00599 )
+[node name="Log2" parent="PondScene" instance=ExtResource("2")]
+transform = Transform3D(0.00819719, 0, -0.018243, 0, 0.02, 0, 0.018243, 0, 0.00819719, 0, -1.08937, 3.00599)
 
-[node name="Pond" parent="PondScene" instance=ExtResource( 1 )]
-transform = Transform( 0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0 )
+[node name="Pond" parent="PondScene" instance=ExtResource("1")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
