@@ -2,6 +2,7 @@
 .import/
 .vscode/
 .mono/
+.godot/
 bin/
 logs/
 *.log*
